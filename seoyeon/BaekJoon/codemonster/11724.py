@@ -37,6 +37,8 @@
 
 #[2] BFS
 import sys
+from collections import deque
+
 sys.setrecursionlimit(10000)
 
 input = sys.stdin.readline
@@ -54,10 +56,15 @@ for _ in range(M):
 
 def bfs(idx,visited):
     next_lst = edges[idx]
-    for next in next_lst:
-        if visited[next]==False:
-            visited[next]=True
-            bfs(next,visited)
+    Q = deque()
+    Q.append(idx)
+
+    while Q:
+        x = Q.popleft()
+        for next in edges[x]:
+            if visited[next]==False:
+                visited[next]=True
+                Q.append(next)
 
 ans = 0
 
