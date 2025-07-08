@@ -55,7 +55,6 @@ for _ in range(M):
     edges[v-1].append(u-1)
 
 def bfs(idx,visited):
-    next_lst = edges[idx]
     Q = deque()
     Q.append(idx)
 
