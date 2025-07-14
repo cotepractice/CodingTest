@@ -93,7 +93,7 @@ for i in range(N):
 #height가 작은 순서대로 울타리의 높이가 됨
 while heap:
     height, x, y = heapq.heappop(heap)
-    print("Current","x",x,"y",y)
+    #print("Current","x",x,"y",y)
     for dx,dy in d:
         nx = x+dx
         ny = y+dy
@@ -102,7 +102,7 @@ while heap:
         if 0<=nx<N and 0<=ny<M and visited[nx][ny]==False:
             #현재 칸보다 낮은 칸은 현재 칸까지 물 채움
             if boards[nx][ny]<height:
-                print("nx",nx,"ny",ny,"boards[nx][ny]",boards[nx][ny])
+                #print("nx",nx,"ny",ny,"boards[nx][ny]",boards[nx][ny])
                 answer += (height - boards[nx][ny])
                 boards[nx][ny]=height
             
