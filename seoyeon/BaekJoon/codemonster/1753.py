@@ -1,4 +1,4 @@
-#MST - Kruskal's Algorithm
+#Dijkstra
 
 import heapq,sys
 
