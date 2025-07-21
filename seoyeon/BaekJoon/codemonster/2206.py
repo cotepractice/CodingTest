@@ -1,9 +1,7 @@
-#16:48 - 
 #방법
-#1. Dijkstra: 한 곳에서 다른 경로까지의 최단 경로
-#2. DP 
-#3. BFS
-#4. DFS
+#1. DP 
+#2. BFS
+#3. DFS
 
 #1. DFS -> recursion 오류 발생
 # def dfs(x,y,check):    #check: 벽을 부쉈는지 
@@ -147,7 +145,6 @@ def bfs():
             if 0<=nx<N and 0<=ny<M:
                 #벽이고, 파괴할 기회 있는 경우
                 if  maps[nx][ny]==1 and c==0:
-                    #print("HERE1")
                     distance[nx][ny][1]=distance[x][y][0]+1
                     Q.append([nx,ny,1])
                 #지나갈 수 있는 경우
