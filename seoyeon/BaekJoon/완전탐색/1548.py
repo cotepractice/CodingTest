@@ -7,10 +7,8 @@ lst.sort() #정렬해야 뒤 3중 for문에서 break 사용 가능
 result = 2
 
 def solv(solv_lst,k):
-    #print("k",k)
     solv_lst.append(lst[k])
     combi = list(combinations(solv_lst,3))
-    #print("combi",combi)
     for a,b,c in combi:
         if a+b<=c or a+c<=b or b+c<=a:
             return False
