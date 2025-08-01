@@ -45,9 +45,6 @@ for i in range(1,N+1):
     n = int(input())
     boards[i]=n
 
-n_dict = dict() #n_dict[i]=k. i:index,k:i번째값
-result = []
-
 #방문한 적 없으면 해당 index 숫자로 다시 dfs() 진행
 def dfs(index,i): #파라미터 index, 초기 숫자(해당 숫자로 사이클 형성 판단)
     visited[index]=True
