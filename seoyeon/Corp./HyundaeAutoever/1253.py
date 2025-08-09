@@ -39,7 +39,7 @@
 # print(answer)
 
 
-#2. 누적합 
+#2. 이분탐색
 
 N = int(input())
 n_lst = list(map(int,input().split()))
