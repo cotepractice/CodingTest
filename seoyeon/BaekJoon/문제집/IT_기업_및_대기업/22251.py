@@ -28,11 +28,10 @@ n_dict[8]=[1,5,2,2,3,2,1,4,0,1]
 n_dict[9]=[2,4,3,1,2,1,2,3,1,0]
 
 
-#2)X에서 반전한 수가 *디스플레이가 P개 이하인지 확인
+#3)X에서 반전한 수가 *디스플레이가 P개 이하인지 확인
 #idx 자릿수 반전
 def dfs(current_n,display_n,idx):
     global answer
-    #print("current_n",current_n)
     
     #1.종결조건
     if idx==K:
@@ -54,8 +53,19 @@ def dfs(current_n,display_n,idx):
 
             dfs(next_n,display_n-lst[l],idx+1)
 
+#2. 자릿수에 맞게 X 변환 
+XX = ""
 
-dfs(str(X),P,0)
+#X 글자수
+cnt = 0
+for k in str(X):
+    cnt+=1
+if cnt<K:
+    diff = K-cnt
+    XX = "0"*diff
+XX += str(X) 
+
+dfs(str(XX),P,0)
 
 #3) 1 이상 N 이하인지 확인+동일한 숫자가 아닌지 확인
 result = []
