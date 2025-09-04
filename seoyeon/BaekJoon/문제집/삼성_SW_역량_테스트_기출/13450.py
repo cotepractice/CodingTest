@@ -1,7 +1,6 @@
 #백준 #13460 구슬탈출2
 #구현, dfs
-#20:30-21:50
-
+import sys
 
 N,M = map(int,input().split())
 boards = [[] for _ in range(N)] # ".":빈칸, "#":공이이동할 수 없는 장애물 또는 벽, "0":구멍, "R":빨간구슬위치, "B":파란구슬위치
@@ -21,9 +20,7 @@ for i in range(N):
 #최소 몇 번만에 빨간 구슬을 빼낼 수 있는지. 파란 구슬은 빼낼 수 없음
 #10번 이하로 빼낼 수 없으면 -1 출력
 
-# R -> 0으로 이동
-# 1)빨간 구슬 좌표와 구멍의 좌표 비교
-# 2)위치에 따라 상하좌우로 이동
+#상하좌우 이동
 
 answer = 11
 
@@ -44,7 +41,7 @@ def move(x,y,d):
 
 def dfs(rx,ry,bx,by,cnt):
     global answer
-    #print("rxry",rx,ry,"bxby",bx,by,"cnt",cnt)
+
     if cnt>10:
         return
     
@@ -54,13 +51,13 @@ def dfs(rx,ry,bx,by,cnt):
     for d in range(4):
         rrcnt, rrx, rry = move(rx,ry,d)
         bbcnt, bbx, bby = move(bx,by,d)
+
         #1.파란 구슬이 구멍에 들어가면 실패
         if boards[bbx][bby]=="O":
-            #print("here11")
-            return
+            continue # *return이 아닌 continue 해야함
+
         #2.빨간 구슬이 구멍에 들어가면 성공
         if boards[rrx][rry]=="O":
-            #print("here22")
             answer = min(answer,cnt)
             return
 
