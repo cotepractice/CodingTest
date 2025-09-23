@@ -20,7 +20,7 @@ for k in range(K):
 #현재 바퀴 회전 > 양쪽 바퀴 확인해 회전 결정
 #반시계 방향이 popleft()
 def move(wheel_n,dir,visited):
-    #print("wheel_n,dir",wheel_n,dir)
+    print("wheel_n,dir",wheel_n,dir)
     #방문처리
 
     #visited[wheel_n]=True
@@ -105,7 +105,7 @@ def move(wheel_n,dir,visited):
 for i in range(K):
     visited = [False for _ in range(4)]
     #print("i",i)
-    #print("k_methods[0]",k_methods[0])
+    print("k_methods[0]",k_methods[0])
     move(k_methods[i][0], k_methods[i][1], visited)
 
     # for i in range(4):
