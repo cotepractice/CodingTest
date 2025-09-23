@@ -17,99 +17,69 @@ for k in range(K):
     x,dir=map(int,input().split())
     k_methods[k] = [x-1,dir]
 
-#현재 바퀴 회전 > 양쪽 바퀴 확인해 회전 결정
-#반시계 방향이 popleft()
-def move(wheel_n,dir,visited):
-    print("wheel_n,dir",wheel_n,dir)
-    #방문처리
+#current_wheel이 dir 방향으로 회전
+def rotate_circle(current_wheel,dir):
+    global visited
 
-    #visited[wheel_n]=True
-    #양쪽 바퀴 확인
-    left,right = wheels[wheel_n][6], wheels[wheel_n][2]
-    #print("leftright",left,right)
-    #왼쪽 확인
-    if wheel_n==0:
-        pass
+    #시계방향으로 회전
+    #맨 뒤 값을 맨 앞으로 넣기
+    if dir==1:
+        tmp = wheels[current_wheel][-1]
+        del wheels[current_wheel][-1]
+        wheels[current_wheel] = [tmp]+wheels[current_wheel]
+
+    #반시계방향으로 회전
+    #맨 앞 값을 맨 뒤로 넣기
     else:
-        #print("HERE1",wheels[wheel_n-1][2])
-        #방향 다르면 반시계 방향 회전
-        if visited[wheel_n-1]==False and wheels[wheel_n-1][2]!=left:
-            #현재 톱니바퀴가 시계방향. 왼쪽 바퀴는 반시계 방향
-            #맨 앞 원소 맨 뒤에 넣기
-            #print("LEFT")
-            if dir==1:
-                #print("Turn Clock Dir")
-                #print("BEFORE",wheels[wheel_n-1])
-                tmp = wheels[wheel_n-1][0]
-                del wheels[wheel_n-1][0]
-                wheels[wheel_n-1].append(tmp)
-                #print("After",wheels[wheel_n-1])
-                visited[wheel_n-1] = True
-                move(wheel_n-1,-1,visited)
-            #현재 톱니바퀴가 반시계방향. 왼쪽 바퀴는 시계 방향
-            #맨 뒤 원소 맨 앞으로 빼기
-            else:
-                #print("Turn Reverse Clock Dir")
-                #print("BEFORE",wheels[wheel_n-1])
-                tmp = wheels[wheel_n-1][-1]
-                del wheels[wheel_n-1][-1]
-                wheels[wheel_n-1] = [tmp] + wheels[wheel_n-1]
-                #print("After",wheels[wheel_n-1])
-                visited[wheel_n-1] = True
-                move(wheel_n-1,1,visited)
+        tmp = wheels[current_wheel][0]
+        del wheels[current_wheel][0]
+        wheels[current_wheel] = wheels[current_wheel]+[tmp]
+
+#현재 바퀴 회전 > 양쪽 바퀴 확인해 회전 결정
+def move(wheel_n,dir):
+    global visited
+
+    left,right = wheels[wheel_n][6], wheels[wheel_n][2]
+    move_lst = [[wheel_n,dir]]
+
+    #왼쪽 확인
+    #방문처리, current_wheel과 current_dir 변경
+    #move_lst에 넣은 후 한 번에 처리
+    current_wheel = wheel_n
+    current_dir = dir
+    while True:
+        if current_wheel-1<0:
+            break
+        if current_wheel-1>=0 and visited[current_wheel-1]==False and left!=wheels[current_wheel-1][2]:
+            move_lst.append([current_wheel-1,current_dir*(-1)])
+            visited[current_wheel-1]=True
+            left = wheels[current_wheel-1][6]
+            current_wheel -= 1
+            current_dir *= (-1)
+        else:
+            break
 
     #오른쪽 확인
-    if wheel_n==3:
-        pass
-    else:
-        #print("HERE2",wheels[wheel_n+1])
-        #print(wheels[wheel_n+1][6]!=right)
-        #방향 다르면 반시계 방향 회전
-        if visited[wheel_n+1]==False and wheels[wheel_n+1][6]!=right:
-            #print("RIGHT")
-            #현재 톱니바퀴가 시계방향. 왼쪽 바퀴는 반시계 방향
-            #맨 앞 원소 맨 뒤에 넣기
-            if dir==1:
-                #print("Turn Clock Dir")
-                #print("BEFORE",wheels[wheel_n+1])
-                tmp = wheels[wheel_n+1][0]
-                del wheels[wheel_n+1][0]
-                wheels[wheel_n+1].append(tmp)
-                #print("After",wheels[wheel_n+1])
-                visited[wheel_n+1] = True
-                move(wheel_n+1,-1,visited)
-            #현재 톱니바퀴가 반시계방향. 왼쪽 바퀴는 시계 방향
-            #맨 뒤 원소 맨 앞으로 빼기
-            else:
-                #print("Turn Reverse Clock Dir")
-                #print("BEFORE",wheels[wheel_n+1])
-                tmp = wheels[wheel_n+1][-1]
-                del wheels[wheel_n+1][-1]
-                wheels[wheel_n+1] = [tmp] + wheels[wheel_n+1]
-                #print("After",wheels[wheel_n+1])
-                visited[wheel_n+1] = True
-                move(wheel_n+1,1,visited)
-
-
-    if visited[wheel_n]!=True:
-        #현재 바퀴 회전
-        if dir==1:
-            tmp = wheels[wheel_n][-1]
-            del wheels[wheel_n][-1]
-            wheels[wheel_n] = [tmp] + wheels[wheel_n]
+    current_wheel = wheel_n
+    current_dir = dir
+    while True:
+        if current_wheel+1>=4:
+            break
+        if current_wheel+1<4 and visited[current_wheel+1]==False and right!=wheels[current_wheel+1][6]:
+            move_lst.append([current_wheel+1,current_dir*(-1)])
+            visited[current_wheel+1]=True
+            right = wheels[current_wheel+1][2]
+            current_wheel += 1
+            current_dir *= (-1)
         else:
-            tmp = wheels[wheel_n][0]
-            del wheels[wheel_n][0]
-            wheels[wheel_n].append(tmp)
+            break
+
+    for wheel,d in move_lst:
+        rotate_circle(wheel,d)
 
 for i in range(K):
     visited = [False for _ in range(4)]
-    #print("i",i)
-    print("k_methods[0]",k_methods[0])
-    move(k_methods[i][0], k_methods[i][1], visited)
-
-    # for i in range(4):
-    #     print(*wheels[i])
+    move(k_methods[i][0], k_methods[i][1])
 
 answer = 0
 for i in range(4):
