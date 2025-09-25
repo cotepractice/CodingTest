@@ -44,7 +44,6 @@ def curve(k,d,g,x,y,prev):
 
         ex,ey = prev[-1]
         current=[]
-        #print("Q",Q)
 
         while Q:
             cx,cy = Q.pop()
@@ -68,8 +67,8 @@ def curve(k,d,g,x,y,prev):
             nx, ny = ex+tmp_x, ey+tmp_y
             current.append([nx,ny])
             boards[nx][ny]=1
-
-        
+        # print("prev",prev)
+        # print("current",current)
         curve(k+1,d,g,x,y,prev+current)
 
 def check():
@@ -77,8 +76,9 @@ def check():
 
     check_d = [[0,1],[1,0],[1,1]]
 
-    for i in range(99):
-        for j in range(99):
+    #0<=x,y<=100 이므로 99가 아니라 100까지
+    for i in range(100):
+        for j in range(100):
             if boards[i][j]==1:
                 cnt = 1
                 for dd in range(3):
