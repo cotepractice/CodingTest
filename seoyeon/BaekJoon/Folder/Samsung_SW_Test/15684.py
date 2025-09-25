@@ -77,7 +77,8 @@ def backtracking(x,y,cnt):
                 ladders[i][j]=True
                 backtracking(i,j+2,cnt+1)
                 ladders[i][j]=False
-            # #2.ladders True
+            #**아래 코드는 backtracking()을 호출해 탐색 공간만 늘리고 답에는 영향 주지 않음
+            #  #2.ladders True
             # elif ladders[i][j]:
             #     backtracking(i,j+2,cnt)
 
