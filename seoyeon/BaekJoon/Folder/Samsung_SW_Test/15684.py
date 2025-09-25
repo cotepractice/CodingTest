@@ -1,5 +1,5 @@
 #백준 #15684 사다리조작
-#8:22-
+#8:22-10:24
 
 N,M,H = map(int,input().split())
 ladders = [[False for _ in range(N)] for _ in range(H)]
