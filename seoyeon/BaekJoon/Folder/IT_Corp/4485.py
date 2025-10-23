@@ -54,6 +54,13 @@ while True:
                 distance[next_x][next_y]=next_d
                 heapq.heappush(heap,[next_d,next_x,next_y])
 
+            #위처럼 1)visited 사용하거나 아래처럼 2)distance보다 작은 경우 heapq 삽입
+            #if 0<=next_x<N and 0<=next_y<N:
+            #  next_d = current_d+boards[next_x][next_y]
+            #  if next_d<distance[next_x][next_y]:
+            #    distance[next_x][next_y]=next_d
+            #    heapq.heappush(heap,[next_d,next_x,next_y])
+
     cnt+=1
 
 #2.DP: 테케2 안됨
