@@ -88,7 +88,7 @@
 #     print(answer)
 
 
-#3. 맥도날드, 스타벅스 기준
+#2. 맥도날드, 스타벅스 기준
 import heapq,sys
 
 input = sys.stdin.readline
