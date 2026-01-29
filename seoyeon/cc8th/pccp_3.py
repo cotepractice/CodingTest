@@ -1,6 +1,8 @@
 #https://school.programmers.co.kr/learn/courses/30/lessons/340211?language=python3
 
 #1. 실패 코드
+# 경유하는 경우를 고려 못 함
+
 # [r,c]와 같은 좌표가 n개 존재. 각 포인트는 1~n까지 서로 다른 번호 가짐
 # 로봇마다 정해진 경로 존재. 경로는 m개의 포인트로 구성되고, 로봇은 첫 포인트에서 시작해 순서대로 방문
 # 운송 시스템에서 사용되는 로봇은 x대. 모든 로봇은 0초에 동시에 출발
@@ -99,4 +101,84 @@ def solution(points, routes):
     
     return answer
 
-#2. 
+
+#2. 경유하는 경우 포함하여 다시 풀기 & set 활용해 answer 카운트
+
+# [r,c]와 같은 좌표가 n개 존재. 각 포인트는 1~n까지 서로 다른 번호 가짐
+# 로봇마다 정해진 경로 존재. 경로는 m개의 포인트로 구성되고, 로봇은 첫 포인트에서 시작해 순서대로 방문
+# 운송 시스템에서 사용되는 로봇은 x대. 모든 로봇은 0초에 동시에 출발
+#  1초마다 r 또는 c 중 하나가 1만큼 감소하거나 증가한 좌표로 이동 가능
+# 이동 시 항상 최단 경로로 이동하며, 최단 경로가 여러 개인 경우 r 좌표가 먼저 변함
+# 마지막 포인트에 도착한 로봇은 운송을 마치고 물류 센터를 벗어남
+
+# 위 상황에서 같은 좌표에 로봇이 2개 이상 모이는 경우 충돌
+
+# 현재 설정대로 로봇이 움직일 때 충돌 상황이 몇 번 일어나는지 알고 싶음
+#  만약 어떤 시간에 여러 좌표에 충돌이 발생한다면 횟수 모두 더함
+
+#입력
+## points:운송포인트 n개 좌표 , routes: 운송 경로를 담은 배열
+
+#이동 좌표 저장 리스트
+#[move_x,move_y,time] 형태
+moves = set()
+check = set() #여러 번 겹치는 경우에도 한 번으로 체크
+answer = 0
+    
+def solv(start_x,start_y,cnt):
+    global moves, check, answer    
+    
+    #moves에 존재하지 않는 경우, 추가
+    if (start_x,start_y,cnt) not in moves:
+        moves.add((start_x,start_y,cnt))
+        #moves에 존재하지만 check 한 적은 없는 경우, check 추가 후 answer 증가
+        # 이외의 경우는 moves에 존재하면서 check에도 존재하는 경우로 더이상 진행할 필요 없음
+    elif (start_x,start_y,cnt) not in check:
+        check.add((start_x,start_y,cnt))
+        answer+=1
+    
+    return
+        
+def solution(points, routes):
+    
+    #1.routes를 통해 시작, 종료 좌표 계산
+    for idx,route in enumerate(routes):
+        m = len(route)
+        tmp = False
+        
+        #경유 가능한 경로 m개 존재
+        cnt = 0
+        for ii in range(m-1):
+            #시작, 종료 points (인덱스로 처리)
+            start=route[ii]-1
+            end=route[ii+1]-1
+            
+            #시작, 종료 x,y 좌표 탐색 (인덱스로 처리)
+            start_x, start_y = points[start][0]-1, points[start][1]-1
+            end_x, end_y = points[end][0]-1, points[end][1]-1
+            
+            #routes의 가장 처음 포인트의 경우만 추가
+            if tmp==False:
+                solv(start_x,start_y,cnt)
+                tmp=True
+                cnt+=1
+            
+            #r 먼저 탐색 
+            while start_x!=end_x:
+                if start_x<end_x:
+                    start_x+=1
+                else:
+                    start_x-=1
+                solv(start_x,start_y,cnt)
+                cnt+=1
+            #c 탐색
+            while start_y!=end_y:
+                if start_y<end_y:
+                    start_y+=1
+                else:
+                    start_y-=1
+                solv(start_x,start_y,cnt)
+                cnt+=1
+                    
+    
+    return answer
